@@ -21,7 +21,9 @@ class BlogHandler(webapp2.RequestHandler):
         """
 
         # TODO - filter the query so that only posts by the given user
-        return None
+
+        query = Post.all().filter('author =', user).order('-created')
+        return query.fetch(limit= 5)
 
     def get_user_by_name(self, username):
         """ Get a user object from the db, based on their username """
@@ -268,6 +270,7 @@ class LoginHandler(BlogHandler):
 
     def get(self):
         self.render_login_form()
+
 
     def post(self):
         submitted_username = self.request.get("username")
